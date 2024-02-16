@@ -1,0 +1,31 @@
+clusterServiceAccountsName:
+- cassandra-cluster-node
+createCustomResource: true
+debug:
+  enabled: false
+image:
+  imagePullSecrets:
+    enabled: false
+  pullPolicy: Always
+  repository: ghcr.io/cscetbon/casskop
+  tag: 2.1.15
+livenessProbe:
+  timeouts:
+    failureThreshold: 1
+    initialDelaySeconds: 4
+    periodSeconds: 10
+metricService: false
+rbacCreateClusterRole: true
+rbacEnable: true
+readinessProbe:
+  timeouts:
+    failureThreshold: 1
+    initialDelaySeconds: 4
+    periodSeconds: 10
+resources:
+  limits:
+    cpu: 1
+    memory: 512Mi
+  requests:
+    cpu: 10m
+    memory: 50Mi
