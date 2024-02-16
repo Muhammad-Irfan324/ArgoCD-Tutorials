@@ -1,0 +1,359 @@
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  storageClass: ""
+#   team: sms
+#   ingressclass: INGRESS_CLASS
+#   environmentName: production
+#   datacenter: DATACENTER
+#   appName: sms
+# vault:
+#   enabled: true
+#   annotations:
+#         vault.hashicorp.com/agent-image: 'public.ecr.aws/d5p8n5l2/unifonic-vault:vault'
+#         vault.hashicorp.com/agent-inject: 'true'
+#         vault.hashicorp.com/agent-inject-secret-paths.yaml: auth/token/lookup-self
+#         vault.hashicorp.com/agent-inject-secret-variables: auth/token/lookup-self
+#         vault.hashicorp.com/auth-path: 'auth/oke-prod-new'
+#         vault.hashicorp.com/agent-inject-template-paths.yaml: |
+#           app:
+#               envs: "kv/data/sms/production/cassandra"
+#         vault.hashicorp.com/agent-inject-template-variables: |
+#           {{- /* Read Key-Value Secret Data  */ -}}
+#              {{- define "tpl.config" -}}
+#                  {{- with secret . -}}
+#                      {{ range $key, $val :=  .Data.data }}
+#                          export {{ $key }}='{{ $val }}'
+#                      {{- end -}}
+#                  {{- end -}}
+#              {{- end -}}
+
+#              {{- /* MAIN CONFIGURATION */ -}}
+#              {{- with file "/vault/secrets/paths.yaml" | parseYAML -}}
+#              {{- $config := .app -}}
+#              {{ executeTemplate "tpl.config" $config.envs }}
+#              {{- end -}}
+#         vault.hashicorp.com/agent-limits-cpu: 500m
+#         vault.hashicorp.com/agent-limits-mem: 128Mi
+#         vault.hashicorp.com/agent-pre-populate-only: 'true'
+#         vault.hashicorp.com/agent-requests-cpu: 250m
+#         vault.hashicorp.com/agent-requests-mem: 64Mi
+#         vault.hashicorp.com/role: sms-production-cassandra-role
+vault:
+  enabled: true
+  # secrets:
+  #   - path: kv/data/sms/production/cassandra
+  #   - path: internal/data/database/config
+
+# appName: cassandra
+# clusterName: oke-prod-new
+nameOverride: ""
+fullnameOverride: ""
+kubeVersion: ""
+commonLabels: {}
+commonAnnotations: {}
+clusterDomain: cluster.local
+extraDeploy: []
+diagnosticMode:
+  enabled: false
+  command:
+    - sleep
+  args:
+    - infinity
+image:
+
+
+  # annotations:
+  #   vault.hashicorp.com/agent-inject: 'true'
+  #   vault.hashicorp.com/role: 'internal-app'
+  #   vault.hashicorp.com/agent-inject-status: 'update'         
+  #   vault.hashicorp.com/agent-inject-secret-database-config.txt: 'internal/data/database/config'
+  #   vault.hashicorp.com/agent-inject-secret-sms-production-cassandra.txt: 'kv/data/sms/production/cassandra'
+  #   vault.hashicorp.com/agent-inject-template-sms-production-cassandra.txt: |
+  #     {{- with secret "kv/data/sms/production/cassandra" -}}
+  #     {{- range $key, $value := .Data.data -}}
+  #     {{ $key }}={{ $value }}{{ "\n" }}
+  #     {{- end -}}
+  #     {{- end -}}      
+  #   vault.hashicorp.com/agent-inject-template-database-config.txt: |
+  #     {{- with secret "internal/data/database/config" -}}
+  #     {{- range $key, $value := .Data.data -}}
+  #     {{ $key }}={{ $value }}{{ "\n" }}
+  #     {{- end -}}
+  #     {{- end -}}
+
+
+  registry: docker.io
+  repository: bitnami/cassandra
+  tag: 4.1.3-debian-11-r71
+  digest: ""
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+  debug: false
+dbUser:
+  user: cassandra
+  forcePassword: false
+  password: ""
+  existingSecret: ""
+initDBConfigMap: ""
+initDBSecret: ""
+existingConfiguration: ""
+cluster:
+  name: cassandra
+  seedCount: 1
+  numTokens: 256
+  datacenter: dc1
+  rack: rack1
+  endpointSnitch: SimpleSnitch
+  internodeEncryption: none
+  clientEncryption: false
+  extraSeeds: []
+  enableUDF: false
+jvm:
+  extraOpts: ""
+  maxHeapSize: ""
+  newHeapSize: ""
+command: []
+args: []
+extraEnvVars: []
+extraEnvVarsCM: ""
+extraEnvVarsSecret: ""
+replicaCount: 1
+updateStrategy:
+  type: RollingUpdate
+hostAliases: []
+podManagementPolicy: OrderedReady
+priorityClassName: ""
+podAnnotations: {}
+podLabels: {}
+podAffinityPreset: ""
+podAntiAffinityPreset: soft
+nodeAffinityPreset:
+  type: ""
+  key: ""
+  values: []
+affinity: {}
+nodeSelector: {}
+tolerations: []
+topologySpreadConstraints: []
+podSecurityContext:
+  enabled: true
+  fsGroup: 1001
+containerSecurityContext:
+  enabled: true
+  runAsUser: 1001
+  runAsNonRoot: true
+resources:
+  limits:
+    cpu: "500m"
+    memory: "5Gi"
+  requests:
+    cpu: "500m"
+    memory: "5Gi"  
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  timeoutSeconds: 30
+  successThreshold: 1
+  failureThreshold: 5
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 30
+  successThreshold: 1
+  failureThreshold: 5
+startupProbe:
+  enabled: false
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 60
+customLivenessProbe: {}
+customReadinessProbe: {}
+customStartupProbe: {}
+lifecycleHooks: {}
+schedulerName: ""
+terminationGracePeriodSeconds: ""
+extraVolumes: []
+extraVolumeMounts: []
+initContainers: []
+sidecars: []
+pdb:
+  create: false
+  minAvailable: 1
+  maxUnavailable: ""
+hostNetwork: false
+containerPorts:
+  intra: 7000
+  tls: 7001
+  jmx: 7199
+  cql: 9042
+hostPorts:
+  intra: ""
+  tls: ""
+  jmx: ""
+  cql: ""
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+  automountServiceAccountToken: true
+service:
+  type: ClusterIP
+  ports:
+    cql: 9042
+    metrics: 8080
+  nodePorts:
+    cql: ""
+    metrics: ""
+  extraPorts: []
+  loadBalancerIP: ""
+  loadBalancerSourceRanges: []
+  clusterIP: ""
+  externalTrafficPolicy: Cluster
+  annotations: {}
+  sessionAffinity: None
+  sessionAffinityConfig: {}
+  headless:
+    annotations: {}
+networkPolicy:
+  enabled: false
+  allowExternal: true
+persistence:
+  enabled: true
+  existingClaim: ""
+  storageClass: ""
+  commitStorageClass: ""
+  annotations: {}
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  commitLogsize: 2Gi
+  mountPath: /bitnami/cassandra
+  commitLogMountPath: ""
+volumePermissions:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: bitnami/os-shell
+    tag: 11-debian-11-r90
+    digest: ""
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  resources:
+    limits: {}
+    requests: {}
+  securityContext:
+    runAsUser: 0
+metrics:
+  enabled: false
+  image:
+    registry: docker.io
+    repository: bitnami/cassandra-exporter
+    tag: 2.3.8-debian-11-r429
+    digest: ""
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+  resources:
+    limits: {}
+    requests: {}
+  readinessProbe:
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    timeoutSeconds: 45
+    failureThreshold: 3
+    successThreshold: 1
+  extraVolumeMounts: []
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
+  serviceMonitor:
+    enabled: false
+    namespace: monitoring
+    interval: ""
+    scrapeTimeout: ""
+    selector: {}
+    metricRelabelings: []
+    relabelings: []
+    honorLabels: false
+    jobLabel: ""
+    labels: {}
+  containerPorts:
+    http: 8080
+    jmx: 5555
+  hostPorts:
+    http: ""
+    jmx: ""
+  configuration: |
+    host: localhost:{{ .Values.containerPorts.jmx }}
+    ssl: False
+    user:
+    password:
+    listenPort: {{ .Values.metrics.containerPorts.http }}
+    blacklist:
+      # To profile the duration of jmx call you can start the program with the following options
+      # > java -Dorg.slf4j.simpleLogger.defaultLogLevel=trace -jar cassandra_exporter.jar config.yml --oneshot
+      #
+      # To get intuition of what is done by cassandra when something is called you can look in cassandra
+      # https://github.com/apache/cassandra/tree/trunk/src/java/org/apache/cassandra/metrics
+      # Please avoid to scrape frequently those calls that are iterating over all sstables
+
+      # Unaccessible metrics (not enough privilege)
+      - java:lang:memorypool:.*usagethreshold.*
+
+      # Leaf attributes not interesting for us but that are presents in many path
+      - .*:999thpercentile
+      - .*:95thpercentile
+      - .*:fifteenminuterate
+      - .*:fiveminuterate
+      - .*:durationunit
+      - .*:rateunit
+      - .*:stddev
+      - .*:meanrate
+      - .*:mean
+      - .*:min
+
+      # Path present in many metrics but uninterresting
+      - .*:viewlockacquiretime:.*
+      - .*:viewreadtime:.*
+      - .*:cas[a-z]+latency:.*
+      - .*:colupdatetimedeltahistogram:.*
+
+      # Mostly for RPC, do not scrap them
+      - org:apache:cassandra:db:.*
+
+      # columnfamily is an alias for Table metrics
+      # https://github.com/apache/cassandra/blob/8b3a60b9a7dbefeecc06bace617279612ec7092d/src/java/org/apache/cassandra/metrics/TableMetrics.java#L162
+      - org:apache:cassandra:metrics:columnfamily:.*
+
+      # Should we export metrics for system keyspaces/tables ?
+      - org:apache:cassandra:metrics:[^:]+:system[^:]*:.*
+
+      # Don't scrap us
+      - com:criteo:nosql:cassandra:exporter:.*
+
+    maxScrapFrequencyInSec:
+      50:
+        - .*
+
+      # Refresh those metrics only every hour as it is costly for cassandra to retrieve them
+      3600:
+        - .*:snapshotssize:.*
+        - .*:estimated.*
+        - .*:totaldiskspaceused:.*
+tls:
+  internodeEncryption: none
+  clientEncryption: false
+  autoGenerated: false
+  existingSecret: ""
+  passwordsSecret: ""
+  keystorePassword: ""
+  truststorePassword: ""
+  certificatesSecret: ""
+  tlsEncryptionSecretName: ""
+  resources:
+    limits: {}
+    requests: {}
