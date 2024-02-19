@@ -1,0 +1,39 @@
+fullnameOverride: smsc-cassandra
+nameOverride: smsc-cassandra
+
+cassandraImage: public.ecr.aws/d5p8n5l2/cassandra:3.11.9
+bootstrapImage: public.ecr.aws/d5p8n5l2/orangeopensource/cassandra-bootstrap:0.1.4
+
+cluster:
+  name: uf-smsc
+  topology:
+    dc: 
+      - name: dc1
+        nodesPerRacks: 1
+        rack:
+          - name: rack1
+
+jvmOptions: 
+  xms: 1024M
+  xmx: 1024M
+
+# storage:
+#   storageClass: oci-bv
+#   storageSize: 20Gi
+
+configMap:
+  enabled: false
+
+authentication: 
+  enabled: false
+
+monitoring:
+  enabled: true
+
+resources:         
+  limits:
+    cpu: "500m"
+    memory: 5Gi
+  requests:
+    cpu: "500m"
+    memory: 5Gi

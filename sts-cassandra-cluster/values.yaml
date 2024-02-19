@@ -1,0 +1,33 @@
+fullnameOverride: smsc-cassandra
+nameOverride: smsc-cassandra
+
+cluster:
+  name: uf.smsc
+  topology:
+    dc: 
+      - name: dc1
+        nodesPerRacks: 1
+        rack:
+          - name: rack1
+
+jvmOptions: 
+  xms: 1024M
+  xmx: 4096M
+
+# storage:
+#   storageClass: ebs-csi-default
+#   storageSize: 20Gi
+
+configMap:
+  enabled: false
+
+authentication: 
+  enabled: false
+
+monitoring:
+  enabled: true
+
+resources:         
+  limits:
+    cpu: '2'
+    memory: 8Gi

@@ -1,0 +1,37 @@
+apiVersion: "db.orange.com/v2"
+kind: "CassandraCluster"
+metadata:
+  name: {{ .Values.fullnameOverride }}
+  labels:
+    cluster: {{ .Values.cluster.name }}
+    {{- include "sts-cassandra-cluster.labels" . | nindent 4 }}
+spec:
+  cassandraImage: {{ .Values.cassandraImage }}
+  bootstrapImage: {{ .Values.bootstrapImage }}
+  {{- if .Values.configMap.enabled }}
+  configMapName: cassandra-configmap-v1
+  {{- end }}
+  {{- if .Values.authentication.enabled }}
+  imageJolokiaSecret:
+    name: jolokia-auth
+  {{- end }}
+  imagepullpolicy: IfNotPresent  
+  hardAntiAffinity: true           # Ensure only 1 cassandra pod to run on each node
+  deletePVC: false
+  autoPilot: false
+  config:
+    jvm-options:
+      initial_heap_size: {{ .Values.jvmOptions.xms }}
+      max_heap_size: {{ .Values.jvmOptions.xmx }}
+      log_gc: "true"
+  autoUpdateSeedList: true
+  maxPodUnavailable: 1
+  runAsUser: 999
+  shareProcessNamespace: true
+  {{- if .Values.monitoring.enabled }}
+  metricService: true
+  {{- end }}
+  resources:         
+    {{- toYaml .Values.resources | nindent 4 }}
+  topology:
+    {{- toYaml .Values.cluster.topology | nindent 4 }}

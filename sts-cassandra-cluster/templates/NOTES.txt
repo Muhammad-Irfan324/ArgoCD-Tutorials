@@ -1,0 +1,2 @@
+To get the application secrets run:
+echo "$(kubectl get secret --namespace {{ .Release.Namespace }} jolokia-auth -o jsonpath="{.data.password}" | base64 -d)"
