@@ -29,9 +29,7 @@ spec:
   maxPodUnavailable: 1
   runAsUser: 999
   shareProcessNamespace: true
-  {{- if .Values.monitoring.enabled }}
-  metricService: false
-  {{- end }}
+
   resources:         
     {{- toYaml .Values.resources | nindent 4 }}
   topology:
