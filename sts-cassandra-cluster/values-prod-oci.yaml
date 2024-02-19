@@ -17,9 +17,9 @@ jvmOptions:
   xms: 1024M
   xmx: 1024M
 
-# storage:
-#   storageClass: oci-bv
-#   storageSize: 20Gi
+storage:
+  # storageClass: oci-bv
+  storageSize: 20Gi
 
 configMap:
   enabled: false
