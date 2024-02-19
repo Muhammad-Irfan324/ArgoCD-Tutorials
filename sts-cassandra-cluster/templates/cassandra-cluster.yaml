@@ -19,8 +19,6 @@ spec:
   dataStorageClass: {{ .Values.storage.storageClass | quote }}
   imagepullpolicy: IfNotPresent  
   hardAntiAffinity: true           # Ensure only 1 cassandra pod to run on each node
-  deletePVC: false
-  autoPilot: false
   config:
     jvm-options:
       initial_heap_size: {{ .Values.jvmOptions.xms }}
