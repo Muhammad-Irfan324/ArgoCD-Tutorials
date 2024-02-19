@@ -30,7 +30,7 @@ spec:
   runAsUser: 999
   shareProcessNamespace: true
   {{- if .Values.monitoring.enabled }}
-  metricService: true
+  metricService: false
   {{- end }}
   resources:         
     {{- toYaml .Values.resources | nindent 4 }}
