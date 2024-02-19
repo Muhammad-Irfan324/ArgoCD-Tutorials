@@ -14,7 +14,7 @@ livenessProbe:
     failureThreshold: 1
     initialDelaySeconds: 4
     periodSeconds: 10
-metricService: false
+
 rbacCreateClusterRole: true
 rbacEnable: true
 readinessProbe:
