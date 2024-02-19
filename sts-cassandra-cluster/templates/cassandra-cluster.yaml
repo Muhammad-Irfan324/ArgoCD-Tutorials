@@ -16,7 +16,6 @@ spec:
     name: jolokia-auth
   {{- end }}
   dataCapacity: {{ .Values.storage.storageSize | quote }}
-  dataStorageClass: {{ .Values.storage.storageClass | quote }}
   imagepullpolicy: IfNotPresent  
   hardAntiAffinity: true           # Ensure only 1 cassandra pod to run on each node
   deletePVC: false
