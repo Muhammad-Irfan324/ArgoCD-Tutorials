@@ -3,7 +3,11 @@
 Expand the name of the chart.
 */}}
 {{- define "casskop.name" -}}
+{{- if .Values.casskopName -}}
+{{- .Values.casskopName -}}
+{{- else -}}
 {{- default "casskop" -}}
+{{- end -}}
 {{- end -}}
 
 {{/*
