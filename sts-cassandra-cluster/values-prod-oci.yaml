@@ -28,7 +28,7 @@ authentication:
   enabled: false
 
 monitoring:
-  enabled: true
+  enabled: false
 
 resources:         
   limits:
