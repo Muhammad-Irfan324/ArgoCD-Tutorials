@@ -99,7 +99,7 @@ image:
 
 ## @param architecture Redis&trade; architecture. Allowed values: `standalone` or `replication`
 ##
-architecture: standalone
+architecture: replication
 ## Redis&trade; Authentication parameters
 ## ref: https://github.com/bitnami/bitnami-docker-redis#setting-the-server-password-on-first-run
 ##
@@ -109,7 +109,7 @@ auth:
   enabled: true
   ## @param auth.sentinel Enable password authentication on sentinels too
   ##
-  sentinel: false
+  sentinel: true
   ## @param auth.password Redis&trade; password
   ## Defaults to a random 10-character alphanumeric string if not set
   ##
@@ -776,7 +776,7 @@ sentinel:
   ## IMPORTANT: this will disable the master and replicas services and
   ## create a single Redis&trade; service exposing both the Redis and Sentinel ports
   ##
-  enabled: false
+  enabled: true
   ## Bitnami Redis&trade; Sentinel image version
   ## ref: https://hub.docker.com/r/bitnami/redis-sentinel/tags/
   ## @param sentinel.image.registry Redis&trade; Sentinel image registry
