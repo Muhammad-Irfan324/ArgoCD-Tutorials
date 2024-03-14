@@ -1,6 +1,6 @@
 ---
 redisOperator:
-  name: redis-operator-redis-argo
+  name: redis-operator-argo
   imageName: quay.io/opstree/redis-operator
   # Overrides the image tag whose default is the chart appVersion.
   imageTag: ""
@@ -30,7 +30,7 @@ resources:
 
 replicas: 1
 
-serviceAccountName: redis-operator-redis-argo
+serviceAccountName: redis-operator-argo
 
 service:
   name: webhook-service
