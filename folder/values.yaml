@@ -1,0 +1,12 @@
+redis:
+  enabled: true
+  architecture: standalone
+  fullnameOverride: redis
+  auth:
+    enabled: true
+    sentinel: false
+
+redis-sentinel:
+  enabled: true
+  architecture: replication
+  fullnameOverride: redis-sentinel
