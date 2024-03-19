@@ -23,6 +23,6 @@ dependencies:
 - name: redis
   repository: file://charts/redis
   condition: redis.enabled
-- name: redis-sentinel
-  repository: file://charts/redis-sentinel
-  condition: redis-sentinel.enabled  
+# - name: redis-sentinel
+#   repository: file://charts/redis-sentinel
+#   condition: redis-sentinel.enabled  
