@@ -1,10 +1,13 @@
 redis:
   enabled: true
-  architecture: standalone
-  fullnameOverride: redis
+  architecture: replication
+  fullnameOverride: redis-sentinel
   auth:
     enabled: true
-    sentinel: false
+    sentinel: true
+    existingSecret: "redis-auth"
+  sentinel:
+    enabled: true
 
 # redis-sentinel:
 #   enabled: true
